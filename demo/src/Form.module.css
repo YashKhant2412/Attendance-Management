@@ -1,0 +1,32 @@
+.formMain {
+  width: 300px;
+  border: 2px solid palevioletred;
+  border-radius: 8px;
+  margin: 10px auto;
+  padding: 8px 12px;
+}
+
+.formInput {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.formButton {
+  width: 200px;
+  margin: 15px auto 8px;
+}
+
+.formButton > button {
+  width: 100%;
+  background-color: darkseagreen;
+  border: 1px solid slategray;
+  border-radius: 8px;
+  padding: 4px 3px;
+  color: rgb(71, 61, 61);
+}
+
+.formButton > button:hover {
+  background-color: rgb(49, 67, 49);
+  color: bisque;
+}

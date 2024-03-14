@@ -1,0 +1,212 @@
+there is one flying program
+we have given following thigs.
+	1) start time: date-time format
+	2) flying time: hours-minute format
+	3) sunrise: hours-minute format
+	4) sunset: hours-minute format
+
+night flying time: flying time between sunset and sunrise. 
+day flying time: flying time between sunrise and sunset.
+
+consider following things while developing logic.
+	1) flying time can be upto 35 hours
+	2) day might change during flying time
+	
+calculate day flying time and night flying time using java code.
+
+
+
+import java.time.Duration;
+import java.time.LocalTime;
+
+public class FlightTimeCalculator {
+
+    public static void main(String[] args) {
+        // start time of airplane flight
+        LocalTime flightStartTime = LocalTime.parse("18:30");
+        
+        // flying time in hour minute format
+        int flyingTimeHours = 25;
+        int flyingTimeMinutes = 15;
+        
+        // fix sunrise and sunset times
+        LocalTime sunriseTime = LocalTime.parse("06:00");
+        LocalTime sunsetTime = LocalTime.parse("18:00");
+        
+        // calculate flight end time
+        LocalTime flightEndTime = flightStartTime.plusHours(flyingTimeHours).plusMinutes(flyingTimeMinutes);
+        
+        // calculate night flytime and day flytime
+        long nightFlyTimeMinutes = 0;
+        long dayFlyTimeMinutes = 0;
+        LocalTime currentFlightTime = flightStartTime;
+        while (currentFlightTime.isBefore(flightEndTime)) {
+            // calculate current flight time duration
+            Duration currentFlightDuration = Duration.between(currentFlightTime, flightEndTime);
+            if (currentFlightDuration.toMinutes() > 60) {
+                // current flight time is at least one hour
+                LocalTime nextSunriseTime = getNextSunriseTime(currentFlightTime, sunriseTime, sunsetTime);
+                LocalTime nextSunsetTime = getNextSunsetTime(currentFlightTime, sunriseTime, sunsetTime);
+                if (currentFlightTime.isBefore(nextSunriseTime) || currentFlightTime.isAfter(nextSunsetTime)) {
+                    // current flight time is during night
+                    nightFlyTimeMinutes += getNextFlightDuration(currentFlightTime, nextSunriseTime, nextSunsetTime, flightEndTime).toMinutes();
+                    currentFlightTime = nextSunriseTime;
+                } else {
+                    // current flight time is during day
+                    dayFlyTimeMinutes += getNextFlightDuration(currentFlightTime, nextSunriseTime, nextSunsetTime, flightEndTime).toMinutes();
+                    currentFlightTime = nextSunsetTime;
+                }
+            } else {
+                // current flight time is less than one hour
+                break;
+            }
+        }
+        
+        // print the results
+        System.out.println("Day flytime: " + dayFlyTimeMinutes + " minutes");
+        System.out.println("Night flytime: " + nightFlyTimeMinutes + " minutes");
+    }
+    
+    private static LocalTime getNextSunriseTime(LocalTime currentTime, LocalTime sunriseTime, LocalTime sunsetTime) {
+        if (currentTime.isBefore(sunriseTime)) {
+            return sunriseTime;
+        } else {
+            return sunsetTime.plusHours(24).plusMinutes(sunriseTime.until(currentTime, java.time.temporal.ChronoUnit.MINUTES));
+        }
+    }
+    
+    private static LocalTime getNextSunsetTime(LocalTime currentTime, LocalTime sunriseTime, LocalTime sunsetTime) {
+        if (currentTime.isBefore(sunsetTime)) {
+            return sunsetTime;
+        } else {
+            return sunriseTime.plusHours(24).plusMinutes(sunsetTime.until(currentTime, java.time.temporal.ChronoUnit.MINUTES));
+        }
+    }
+    
+    private static Duration getNextFlightDuration(LocalTime currentFlightStartTime, LocalTime nextSunriseTime, LocalTime nextSunsetTime, LocalTime flightEndTime) {
+        if (currentFlightStartTime.isBefore(nextSunriseTime) && flightEndTime.isAfter(nextSunsetTime)) {
+            // flight spans across both day and night
+            return Duration.between(currentFlightStartTime, nextSunriseTime).plus(Duration.between(nextSunsetTime, flightEndTime));
+        } else if (currentFlightStartTime.isBefore(nextSunriseTime)) {
+            // flight starts during day and ends during day
+            return Duration.between(currentFlightStartTime, nextSunriseTime);
+        } else if (flightEndTime.isAfter(nextSunsetTime)) {
+            // flight starts during night and ends during night
+            return Duration.between(nextSunsetTime, flightEndTime);
+        } else {
+            // flight starts during night and ends during day
+            return Duration.ZERO;
+        }
+    }
+}
+
+
+public static void main(String[] args) {
+    // create example input data
+    LocalTime currentFlightStartTime = LocalTime.of(23, 0); // 11:00 PM
+    Duration currentFlightDuration = Duration.ofHours(8).plusMinutes(30); // 8 hours 30 minutes
+    LocalTime currentFlightEndTime = currentFlightStartTime.plus(currentFlightDuration);
+    LocalTime nextSunriseTime = LocalTime.of(6, 0); // 6:00 AM
+    LocalTime nextSunsetTime = LocalTime.of(18, 0); // 6:00 PM
+    
+    // calculate day and night flytimes
+    Duration dayFlytime = FlightCalculator.getDayFlytime(currentFlightStartTime, nextSunriseTime, nextSunsetTime, currentFlightEndTime);
+    Duration nightFlytime = FlightCalculator.getNightFlytime(currentFlightStartTime, nextSunriseTime, nextSunsetTime, currentFlightEndTime);
+    
+    // print results
+    System.out.println("Day flytime: " + dayFlytime);
+    System.out.println("Night flytime: " + nightFlytime);
+}
+
+Day flytime: PT30M
+Night flytime: PT8H
+
+
+
+/// 222222222222222///////////
+
+
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+
+public class FlightCalculator {
+    
+    public static Duration getNightFlytime(LocalDateTime flightStart, LocalTime sunriseTime, LocalTime sunsetTime, LocalDateTime flightEnd) {
+        // adjust flight start and end times to be within the same day as sunrise and sunset
+        LocalDateTime flightStartAdjusted = flightStart.withHour(sunsetTime.getHour()).withMinute(sunsetTime.getMinute());
+        if (flightStartAdjusted.isAfter(flightStart)) {
+            flightStartAdjusted = flightStartAdjusted.minusDays(1);
+        }
+        LocalDateTime flightEndAdjusted = flightEnd.withHour(sunriseTime.getHour()).withMinute(sunriseTime.getMinute());
+        if (flightEndAdjusted.isBefore(flightEnd)) {
+            flightEndAdjusted = flightEndAdjusted.plusDays(1);
+        }
+        
+        // calculate night flying time
+        Duration nightFlytime = Duration.ZERO;
+        LocalDateTime currentFlightStartTime = flightStartAdjusted;
+        while (currentFlightStartTime.isBefore(flightEndAdjusted)) {
+            LocalDateTime currentFlightEndTime = currentFlightStartTime.plus(getNextFlightDuration(currentFlightStartTime.toLocalTime(), sunriseTime, sunsetTime, flightEndAdjusted.toLocalTime()));
+            nightFlytime = nightFlytime.plus(Duration.between(currentFlightStartTime, currentFlightEndTime).truncatedTo(ChronoUnit.MINUTES));
+            currentFlightStartTime = currentFlightEndTime;
+        }
+        return nightFlytime;
+    }
+    
+    public static Duration getDayFlytime(LocalDateTime flightStart, LocalTime sunriseTime, LocalTime sunsetTime, LocalDateTime flightEnd) {
+        // adjust flight start and end times to be within the same day as sunrise and sunset
+        LocalDateTime flightStartAdjusted = flightStart.withHour(sunriseTime.getHour()).withMinute(sunriseTime.getMinute());
+        if (flightStartAdjusted.isAfter(flightStart)) {
+            flightStartAdjusted = flightStartAdjusted.plusDays(1);
+        }
+        LocalDateTime flightEndAdjusted = flightEnd.withHour(sunsetTime.getHour()).withMinute(sunsetTime.getMinute());
+        if (flightEndAdjusted.isBefore(flightEnd)) {
+            flightEndAdjusted = flightEndAdjusted.minusDays(1);
+        }
+        
+        // calculate day flying time
+        Duration dayFlytime = Duration.ZERO;
+        LocalDateTime currentFlightStartTime = flightStartAdjusted;
+        while (currentFlightStartTime.isBefore(flightEndAdjusted)) {
+            LocalDateTime currentFlightEndTime = currentFlightStartTime.plus(getNextFlightDuration(currentFlightStartTime.toLocalTime(), sunriseTime, sunsetTime, flightEndAdjusted.toLocalTime()));
+            dayFlytime = dayFlytime.plus(Duration.between(currentFlightStartTime, currentFlightEndTime).truncatedTo(ChronoUnit.MINUTES));
+            currentFlightStartTime = currentFlightEndTime;
+        }
+        return dayFlytime;
+    }
+    
+    private static Duration getNextFlightDuration(LocalTime currentFlightStartTime, LocalTime nextSunriseTime, LocalTime nextSunsetTime, LocalTime flightEndTime) {
+        if (currentFlightStartTime.isBefore(nextSunriseTime) && flightEndTime.isAfter(nextSunsetTime)) {
+            // flight spans across both day and night
+            return Duration.between(currentFlightStartTime, nextSunriseTime).plus(Duration.between(nextSunsetTime, flightEndTime));
+        } else if (currentFlightStartTime.isBefore(nextSunriseTime)) {
+            // flight starts during day and ends during day
+            return Duration.between(currentFlightStartTime, nextSunriseTime);
+        } else if (flightEndTime.isAfter(nextSunsetTime)) {
+                        // flight starts during night and ends during night
+            return Duration.between(currentFlightStartTime, nextSunsetTime);
+        } else {
+            // flight starts and ends during day
+            return Duration.between(currentFlightStartTime, flightEndTime);
+        }
+    }
+    
+    public static void main(String[] args) {
+        LocalDateTime flightStart = LocalDateTime.of(2023, 4, 17, 19, 30);
+        Duration flyingTime = Duration.ofHours(10).plusMinutes(30);
+        LocalTime sunriseTime = LocalTime.of(6, 0);
+        LocalTime sunsetTime = LocalTime.of(18, 0);
+        
+        LocalDateTime flightEnd = flightStart.plus(flyingTime);
+        
+        Duration nightFlytime = getNightFlytime(flightStart, sunriseTime, sunsetTime, flightEnd);
+        Duration dayFlytime = getDayFlytime(flightStart, sunriseTime, sunsetTime, flightEnd);
+        
+        System.out.println("Night flying time: " + nightFlytime.toHours() + " hours " + nightFlytime.toMinutesPart() + " minutes");
+        System.out.println("Day flying time: " + dayFlytime.toHours() + " hours " + dayFlytime.toMinutesPart() + " minutes");
+    }
+}
+
+
