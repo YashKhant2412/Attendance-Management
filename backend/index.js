@@ -1,28 +1,20 @@
-const { MongoClient, ServerApiVersion } = require("mongodb");
-const uri =
-  "mongodb+srv://yashkhant24:rootY@room402.exgigiu.mongodb.net/?retryWrites=true&w=majority&appName=room402";
+const User = require("./Schemas/User");
+const Attendance = require("./Schemas/Attendance");
+const { createProject } = require("./Services/ProjectServices");
+const express = require("express");
+const cors = require("cors");
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: false,
-    deprecationErrors: true,
-  },
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+app.post("/addProject", async (req, resp) => {
+  let res = await createProject(
+    req.body.projectName,
+    req.body.projectStartDate,
+    req.body.projectEndDate
+  );
+  resp.send(res);
 });
-async function run() {
-  try {
-    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
-    // Send a ping to confirm a successful connection
-    const connect = await client.connect();
-    const db = connect.db("attendanceManagement");
-    const result = db.collection("Users");
-    const res = await result.find({}).toArray();
-    console.log(res);
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
-}
-run().catch(console.dir);
+
+app.listen(8080);
