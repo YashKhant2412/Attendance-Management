@@ -1,5 +1,4 @@
-function generateUniqueId() {
-  return Math.random().toString(36).substr(2, 6); // You can customize this as needed
-}
+// getid.js
+const generateUniqueId = () => Math.random().toString(36).substr(2, 6); // Function to generate unique ID
 
-module.exports = generateUniqueId();
+module.exports = generateUniqueId;

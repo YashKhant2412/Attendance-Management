@@ -10,8 +10,8 @@ const projectScheama = new mongooseConnection.Schema({
   },
   projectName: {
     type: String,
-    required: true,
     unique: true,
+    required: true,
   },
   projectStartDate: String,
   projectEndDate: String,

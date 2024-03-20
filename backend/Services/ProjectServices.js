@@ -27,4 +27,22 @@ async function createProject(
   }
 }
 
-module.exports = { createProject };
+async function getProjects() {
+  try {
+    const res = await Project.find({}, { projectName: 1, id: 1, _id: 0 });
+    console.log(res);
+    return {
+      status: true,
+      data: res,
+      message: "Project fetched successfully.",
+    };
+  } catch (error) {
+    return {
+      status: false,
+      message: "Error occured!",
+      error: error.message,
+    };
+  }
+}
+
+module.exports = { createProject, getProjects };

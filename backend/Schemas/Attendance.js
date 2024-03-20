@@ -3,8 +3,16 @@ const generateUniqueId = require("./getid");
 
 const attendanceSchema = new mongooseConnection.Schema(
   {
-    userId: String,
-    date: String,
+    userId: {
+      type: String,
+      unique: true,
+      required: true,
+    },
+    date: {
+      type: String,
+      unique: true,
+      required: true,
+    },
     checkInTime: String,
     checkOutTime: String,
   },
