@@ -110,8 +110,6 @@ const CreateUserPage = () => {
               {data.map((data, index) => (
                 <option
                   key={index}
-                <option
-                  key={index}
                   value={data.value}
                   name={"projectId"}
                   onChange={onchangeHandler}
