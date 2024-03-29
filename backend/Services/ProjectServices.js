@@ -7,6 +7,15 @@ async function createProject(
   managerUserId
 ) {
   try {
+    // Check if project name already exists
+    const existingProject = await Project.findOne({ projectName });
+    if (existingProject) {
+      return {
+        status: false,
+        message: "Project name already exists.",
+      };
+    }
+
     const newProject = new Project({
       projectName,
       projectStartDate,

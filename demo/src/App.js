@@ -1,4 +1,4 @@
-import { Button, Input, Select } from "./CommonModule/CmnCopmponent";
+import { Button, Input, Select } from "./Pages/CmnCopmponent";
 // import { Button2 } from "./CommonModule/CommonPage/Button";
 import Home from "./Pages/Home";
 
