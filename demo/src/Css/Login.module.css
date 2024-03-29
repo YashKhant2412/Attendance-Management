@@ -1,0 +1,16 @@
+.cont{
+    width: 400px;
+    background-color: white;
+}
+
+.subCont{
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.flexBox{
+    display: flex;
+    gap: 10px;
+    margin: -10px 0px;
+}

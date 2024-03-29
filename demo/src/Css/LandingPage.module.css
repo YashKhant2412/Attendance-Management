@@ -1,0 +1,32 @@
+.Container {
+  display: flex;
+  background-color: rgb(180, 174, 174);
+  width: 100%;
+  height: 100vh;
+}
+
+.leftContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 55%;
+}
+.rightContainer {
+  width: 45%;
+  height: 100%;
+}
+.topBox {
+  margin-top: 40px;
+  width: 400px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  overflow: auto;
+}
+.bottomBox {
+  width: 360px;
+  background-color: rgb(254, 254, 254);
+  padding: 20px;
+  border-top: 2px dotted maroon;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+}

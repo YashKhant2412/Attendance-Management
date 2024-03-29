@@ -1,0 +1,59 @@
+.button {
+  background-color: #04aa6d; /* Green */
+  border-radius: 5px;
+  color: rgb(255, 255, 255);
+  padding: 10px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.blueBtn {
+  background-color: #008cba;
+} /* Blue */
+.redBtn {
+  background-color: #f44336;
+} /* Red */
+.grayBtn {
+  background-color: #e7e7e7;
+  color: black;
+} /* Gray */
+.blackBtn {
+  background-color: #555555;
+} /* Black */
+
+.inputBox {
+  width: 100%;
+  margin: 10px 0;
+}
+
+.selectBox {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.input {
+  width: 100%;
+  padding: 10px 16px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.select {
+  width: 100%;
+  padding: 10px 16px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.label {
+  color: rgb(65, 63, 63);
+}

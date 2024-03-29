@@ -58,40 +58,4 @@ app.get("/getAttendance", async (req, resp) => {
   resp.send(res);
 });
 
-app.get("/getProjects", async (req, resp) => {
-  let res = await getProjects();
-  resp.send(res);
-});
-
-app.post("/createUser", async (req, resp) => {
-  let res = await createUser(
-    req?.body?.firstName,
-    req?.body?.lastName,
-    req?.body?.username,
-    req?.body?.phone,
-    req?.body?.email,
-    req?.body?.DOB,
-    req?.body?.DOJ,
-    req?.body?.projectId,
-    req?.body?.role,
-    req?.body?.password
-  );
-  resp.send(res);
-});
-
-app.post("/createAttendance", async (req, resp) => {
-  let res = await createAttendance(
-    req.body.userId,
-    req.body.date,
-    req.body.checkInTime,
-    req.body.checkOutTime
-  );
-  resp.send(res);
-});
-
-app.get("/getAttendance", async (req, resp) => {
-  let res = await getAttendance();
-  resp.send(res);
-});
-
 app.listen(8000);
