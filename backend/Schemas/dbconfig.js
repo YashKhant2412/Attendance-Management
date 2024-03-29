@@ -5,8 +5,8 @@ const connectionString = `mongodb+srv://yashkhant24:rootY@room402.exgigiu.mongod
 // Establish the connection to MongoDB Atlas
 mongoose
   .connect(connectionString, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+    // useNewUrlParser: true,
+    // useUnifiedTopology: true,
   })
   .then(() => {
     console.log("Connected to MongoDB Atlas");
