@@ -6,7 +6,7 @@ import LandingPage from "./Pages/LandingPage";
 
 const App = () => {
   // const data = ["a", "bb", "cccc"];
-  // const data = [{"name":'a', "value": "aa"}, {"name":'b', "value": "bb"}, {"name":'c', "value": "cc"}];
+  const data = [{"name":'a', "value": "aa"}, {"name":'b', "value": "bb"}, {"name":'c', "value": "cc"}];
 
   return (
     <>

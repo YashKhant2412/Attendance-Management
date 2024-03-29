@@ -1,6 +1,7 @@
 const User = require("../Schemas/User");
 const Cred = require("../Schemas/Crediential");
 const generateUniqueId = require("../Schemas/getid");
+const mongoose = require("../Schemas/dbconfig");
 
 const createUser = async (
   firstName,
@@ -14,8 +15,8 @@ const createUser = async (
   role,
   password
 ) => {
-  // const session = await mongoose.connection.startSession();
-  // session.startTransaction();
+  const session = await mongoose.connection.startSession();
+  session.startTransaction();
 
   try {
     const newUser = new User({
@@ -31,24 +32,28 @@ const createUser = async (
     });
     // console.log(newUser);
 
-    const savedUser = await newUser.save();
-
+    const savedUser = await newUser.save({ session });
+    console.log({ userId: savedUser.id, password }, "cred");
     const newCred = new Cred({ userId: savedUser.id, password });
-    const savedCred = await newCred.save();
+    const savedCred = await newCred.save({ session });
     // console.log(savedCred, "savedCred");
+    await session.commitTransaction();
 
     return {
       status: true,
       message: "user created successfully.",
     };
   } catch (error) {
-    // await session.abortTransaction();
-    // session.endSession();
+    await session.abortTransaction();
+    session.endSession();
+
     return {
       status: false,
       message: "Error occured.",
       error: error.message,
     };
+  } finally {
+    session.endSession();
   }
 };
 

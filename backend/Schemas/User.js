@@ -35,7 +35,7 @@ const userSchema = new mongooseConnection.Schema({
   },
 });
 
-userSchema.index({ firstName: 1, lastName: 1 }, { unique: true });
+// userSchema.index({ firstName: 1, lastName: 1 }, { unique: true });
 
 // Create User model
 const User = mongooseConnection.model("users", userSchema);
