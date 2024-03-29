@@ -1,10 +1,10 @@
 import css from "../Css/Login.module.css";
 import cmn from "../Css/CmnComponent.module.css";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Axios from "axios";
+import { Input, Button } from "./CmnCopmponent";
 
 const CreateUserPage = () => {
-  
   //URL
 
   const Create_User_Url = "/createUser";
@@ -51,6 +51,7 @@ const CreateUserPage = () => {
   };
 
   const onchangeHandler = (e) => {
+    console.log(e.target.value);
     setCreate({ ...create, [e.target.name]: e.target.value });
   };
 
@@ -59,70 +60,56 @@ const CreateUserPage = () => {
       <div className={css.cont}>
         <div className={css.subCont}>
           <div className={css.flexBox}>
-            <div className={cmn.inputBox}>
-              <input
-                className={cmn.input}
-                type="text"
-                name="firstName"
-                onChange={onchangeHandler}
-                required
-                placeholder="First Name"
-              />
-            </div>
-
-            <div className={cmn.inputBox}>
-              <input
-                className={cmn.input}
-                type="text"
-                name="lastName"
-                onChange={onchangeHandler}
-                
-                required
-                placeholder="Last Name"
-              />
-            </div>
-          </div>
-
-          <div className={cmn.inputBox}>
-            <input
-              className={cmn.input}
-              type="text"
-              name="username"
-              onChange={onchangeHandler}
-              
-              required
-              placeholder="User Name"
+            <Input
+              type={"text"}
+              name={"firstName"}
+              onchangeHandle={onchangeHandler}
+              value={create.firstName}
+              required={true}
+              placeholder={"First Name"}
+            />
+            <Input
+              type={"text"}
+              name={"lastName"}
+              onchangeHandle={onchangeHandler}
+              value={create.lastName}
+              required={true}
+              placeholder={"Last Name"}
             />
           </div>
 
-          <div className={cmn.inputBox}>
-            <input
-              className={cmn.input}
-              type="text"
-              name="phone"
-              onChange={onchangeHandler}
-              
-              required
-              placeholder="Phone No"
-            />
-          </div>
+          <Input
+            type={"text"}
+            name={"username"}
+            onchangeHandle={onchangeHandler}
+            value={create.username}
+            required={true}
+            placeholder={"User Name"}
+          />
 
-          <div className={cmn.inputBox}>
-            <input
-              className={cmn.input}
-              type="text"
-              name="email"
-              onChange={onchangeHandler}
-              
-              required
-              placeholder="Email I'd"
-            />
-          </div>
+          <Input
+            type={"text"}
+            name={"phone"}
+            onchangeHandle={onchangeHandler}
+            value={create.phone}
+            required={true}
+            placeholder={"Phone No"}
+          />
+
+          <Input
+            type={"text"}
+            name={"email"}
+            onchangeHandle={onchangeHandler}
+            value={create.email}
+            required={true}
+            placeholder={"Email I'd"}
+          />
 
           <div className={cmn.selectBox}>
             <select className={cmn.select} id="country" name="country">
               {data.map((data, index) => (
-                <option key={index}
+                <option
+                  key={index}
                   value={data.value}
                   name={"projectId"}
                   onChange={onchangeHandler}
@@ -133,52 +120,39 @@ const CreateUserPage = () => {
             </select>
           </div>
 
-          <div className={cmn.inputBox}>
-            <input
-              className={cmn.input}
-              type="password"
-              name="password"
-              onChange={onchangeHandler}
-              id="password"
-              placeholder="Password"
-              
-              required
+          <Input
+            type={"password"}
+            name={"password"}
+            onchangeHandle={onchangeHandler}
+            value={create.password}
+            required={true}
+            placeholder={"Password"}
+          />
+
+          <div className={css.flexBox}>
+            <Input
+              type={"date"}
+              name={"DOB"}
+              onchangeHandle={onchangeHandler}
+              value={create.DOB}
+              required={true}
+              placeholder={"DOB"}
+            />
+            <Input
+              type={"date"}
+              name={"DOJ"}
+              onchangeHandle={onchangeHandler}
+              value={create.DOJ}
+              required={true}
+              placeholder={"DOJ"}
             />
           </div>
 
-          <div className={css.flexBox}>
-            <div className={cmn.inputBox}>
-              <input
-                className={cmn.input}
-                type="date"
-                name="DOB"
-                onChange={onchangeHandler}
-                required
-                placeholder="DOB"
-              />
-            </div>
-
-            <div className={cmn.inputBox}>
-              <input
-                className={cmn.input}
-                type="date"
-                name="DOJ"
-                onChange={onchangeHandler}
-                
-                required
-                placeholder="DOJ"
-              />
-            </div>
-          </div>
-
-          <div className={cmn.inputBox}>
-            <button
-              onClick={creteAttendance}
-              className={`${cmn.button} ${cmn.blueBtn}`}
-            >
-              Create new account
-            </button>
-          </div>
+          <Button
+            buttonName={"Create new account"}
+            buttonCss={"blueBtn"}
+            onclickHandle={creteAttendance}
+          />
         </div>
       </div>
     </div>

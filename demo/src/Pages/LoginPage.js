@@ -1,21 +1,20 @@
 import css from "../Css/Login.module.css";
 import cmn from "../Css/CmnComponent.module.css";
+import { Input, Button } from "./CmnCopmponent";
 import React, { useState } from "react";
 import Axios from "axios";
 
 const LoginPage = () => {
-
   //URL
   const login_Url = "/login";
 
   //State
-  const [loggedIn, setLoggedIn] = useState(false);
+  // const [loggedIn, setLoggedIn] = useState(false);
   const [loginDetail, setLoginDetail] = useState({
     username: "",
     email: "",
-    password: ""
+    password: "",
   });
-
 
   const onchangeHandler = (e) => {
     console.log(e.target.value, "login event");
@@ -32,62 +31,33 @@ const LoginPage = () => {
       });
   };
 
-  // const handleLogin = (e) => {
-  //   if (username && password || email && password) {
-  //     // setLoggedIn(true);
-  //     alert("Logged in successfully!");
-  //   } else {
-  //     alert("Please enter username and password.");
-  //   }
-  // };
-
   return (
     <div className={css.container}>
       <div className={css.cont}>
         <div className={css.subCont}>
-          <div className={cmn.inputBox}>
-            <input
-              className={cmn.input}
-              type="text"
-              name="username"
-              onChange={onchangeHandler}
-              required
-              placeholder="User Name"
-              disabled={loginDetail.email}
-            />
-          </div>
+          <Input
+            type={"text"}
+            name={"userName"}
+            onchangeHandle={onchangeHandler}
+            value={""}
+            required={true}
+            placeholder={"Email / User Name"}
+          />
 
-          <div className={cmn.inputBo}>
-            <pre style={{fontSize:"18px"}}>                 Or</pre>
-          </div>
+          <Input
+            type={"password"}
+            name={"password"}
+            onchangeHandle={onchangeHandler}
+            value={""}
+            required={true}
+            placeholder={"Password"}
+          />
 
-          <div className={cmn.inputBox}>
-            <input
-              className={cmn.input}
-              type="email"
-              name="email"
-              onChange={onchangeHandler}
-              required
-              placeholder="Email i'd"
-              disabled={loginDetail.username}
-            />
-          </div>
-
-          <div className={cmn.inputBox}>
-            <input
-              className={cmn.input}
-              type="password"
-              placeholder="Password"
-              name="password"
-              onChange={onchangeHandler}
-              required
-            />
-          </div>
-          <div className={cmn.inputBox}>
-            <button className={`${cmn.button} ${cmn.blueBtn}`} onClick={handleLogin}>
-              Log in
-            </button>
-          </div>
+          <Button
+            buttonName={"Log in"}
+            buttonCss={"blueBtn"}
+            onclickHandle={handleLogin}
+          />
         </div>
       </div>
     </div>

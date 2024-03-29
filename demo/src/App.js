@@ -1,22 +1,17 @@
-import { Button, Input, Select } from "./Pages/CmnCopmponent";
-import LoginPage from "./Pages/LoginPage";
-
 import LandingPage from "./Pages/LandingPage";
-
+import {Button} from "./Pages/CmnCopmponent"
 
 const App = () => {
-  // const data = ["a", "bb", "cccc"];
-  const data = [{"name":'a', "value": "aa"}, {"name":'b', "value": "bb"}, {"name":'c', "value": "cc"}];
+
+  const onclickHandle =()=>{
+    console.log("input onchage");
+  }
+
+ // className={`${css.button} ${css.blueBtn}`}
 
   return (
     <>
       <LandingPage/>
-    {/* <div style={{display:"flex"}}>
-      <Button buttonCss={"blueBtn"} buttonName={"Save"}/>
-      <Button buttonCss={"redBtn"} buttonName={"Cancel"}/>
-      <Input fieldName={"Name"} />
-      <Select optionData={data}/>
-      </div> */}
     </>
   );
 };
