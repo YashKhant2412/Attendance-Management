@@ -57,4 +57,23 @@ const createUser = async (
   }
 };
 
-module.exports = { createUser };
+const getUser = async (username) => {
+  try {
+    const res = await User.find({ username });
+    console.log(res);
+    if (res.length > 0) {
+      return res[0];
+    }
+    return {
+      message: "something went wrong!",
+    };
+  } catch (err) {
+    return {
+      status: false,
+      message: "Error occured.",
+      error: error.message,
+    };
+  }
+};
+
+module.exports = { createUser, getUser };

@@ -23,6 +23,7 @@ const loginUser = async (userid, cred) => {
           }
         : {
             status: false,
+            message: "wrong password.",
           };
     } else {
       return {
