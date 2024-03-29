@@ -14,6 +14,7 @@ const LoginPage = () => {
     username: "",
     email: "",
     password: "",
+    password: "",
   });
 
   const onchangeHandler = (e) => {

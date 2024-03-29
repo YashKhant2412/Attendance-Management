@@ -13,10 +13,12 @@
 }
 .rightContainer {
   width: 45%;
-  height: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
 }
 .topBox {
-  margin-top: 40px;
+  /* margin-top: 40px; */
   width: 400px;
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;

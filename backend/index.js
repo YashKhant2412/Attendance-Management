@@ -2,6 +2,7 @@ const User = require("./Schemas/User");
 const Attendance = require("./Schemas/Attendance");
 const { createProject, getProjects } = require("./Services/ProjectServices");
 const { createUser } = require("./Services/UserServices");
+const { loginUser } = require("./Services/LoginServices");
 const {
   createAttendance,
   getAttendance,
@@ -55,6 +56,11 @@ app.post("/createAttendance", async (req, resp) => {
 
 app.get("/getAttendance", async (req, resp) => {
   let res = await getAttendance();
+  resp.send(res);
+});
+
+app.post("/login", async (req, resp) => {
+  const res = await loginUser(req.body.userId, req.body.password);
   resp.send(res);
 });
 

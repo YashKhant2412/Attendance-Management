@@ -1,17 +1,16 @@
 import LandingPage from "./Pages/LandingPage";
-import {Button} from "./Pages/CmnCopmponent"
+import { Button } from "./Pages/CmnCopmponent";
 
 const App = () => {
-
-  const onclickHandle =()=>{
+  const onclickHandle = () => {
     console.log("input onchage");
-  }
+  };
 
- // className={`${css.button} ${css.blueBtn}`}
+  // className={`${css.button} ${css.blueBtn}`}
 
   return (
     <>
-      <LandingPage/>
+      <LandingPage />
     </>
   );
 };
