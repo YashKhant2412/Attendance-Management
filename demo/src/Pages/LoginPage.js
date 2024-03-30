@@ -7,11 +7,14 @@ import React, { useState } from "react";
 import axios from "axios";
 import instance from "../Services/AxiosInstance";
 import { setLoginDetails } from "../Store/logindetailsSlice";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const [loggedinSuccess, setloggeinSuccess] = useState(false);
   //Redux
   const dispatch = useDispatch();
+  const nav = useNavigate();
+
   const gg = useSelector((data) => data);
   console.log(gg, "redux data");
   //URL
@@ -41,6 +44,7 @@ const LoginPage = () => {
               isloggedIn: true,
             })
           );
+          nav("/attendance");
         }
       }
     } catch (err) {
