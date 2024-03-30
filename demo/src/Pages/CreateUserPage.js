@@ -5,10 +5,8 @@ import Axios from "axios";
 import { Input, Button } from "./CmnCopmponent";
 
 const CreateUserPage = () => {
-  
   //URL
-  const Create_User_Url = "/createUser";
-
+  const CREATE_USER_URL = "http://localhost:8000/createUser";
 
   //JSON
   const data = [
@@ -17,7 +15,6 @@ const CreateUserPage = () => {
     { label: "CAIR", value: "3" },
     { label: "TCS", value: "4" },
   ];
-
 
   //state
   const [create, setCreate] = useState({
@@ -33,11 +30,9 @@ const CreateUserPage = () => {
     password: "",
   });
 
-  
-
   //Function
   const creteAttendance = () => {
-    Axios.post(Create_User_Url, create)
+    Axios.post(CREATE_USER_URL, create)
       .then((response) => {
         console.log(response.data);
       })
@@ -102,12 +97,13 @@ const CreateUserPage = () => {
           />
 
           <div className={cmn.selectBox}>
-            <select className={cmn.select} name="projectId" onChange={onchangeHandler}>
+            <select
+              className={cmn.select}
+              name="projectId"
+              onChange={onchangeHandler}
+            >
               {data.map((data, index) => (
-                <option
-                  key={index}
-                  value={data.value}
-                >
+                <option key={index} value={data.value}>
                   {data.label}
                 </option>
               ))}

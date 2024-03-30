@@ -2,12 +2,11 @@ import { useEffect } from "react";
 import { Button, Input, Select } from "./CmnCopmponent";
 import Axios from "axios";
 const Attendance = () => {
-
   //URL
-  const Get_Attendance_Url = "/getAttendance";
+  const GET_ATTENDANCE_URL = "http://localhost:8000/getAttendance";
 
   const getAttendance = () => {
-    Axios.get(Get_Attendance_Url)
+    Axios.get(GET_ATTENDANCE_URL)
       .then((response) => {
         console.log(response.data);
       })
@@ -15,9 +14,9 @@ const Attendance = () => {
         console.error("Error:", error);
       });
   };
-  useEffect(()=>{
+  useEffect(() => {
     getAttendance();
-  }, [])
+  }, []);
   return (
     <>
       <div style={{ display: "flex" }}>

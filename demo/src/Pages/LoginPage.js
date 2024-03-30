@@ -1,19 +1,21 @@
 import css from "../Css/Login.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import {login} from "../Store/Reducer/AuthReducer"
+// import { login } from "../Store/authSlice";
+import { setToken } from "../Store/tokenSlice";
 import { Input, Button } from "./CmnCopmponent";
 import React, { useState } from "react";
-import Axios from "axios";
+import axios from "axios";
+import instance from "../Services/AxiosInstance";
+import { setLoginDetails } from "../Store/logindetailsSlice";
 
 const LoginPage = () => {
-
+  const [loggedinSuccess, setloggeinSuccess] = useState(false);
   //Redux
   const dispatch = useDispatch();
-  const loggedinSuccess = useSelector((state)=>state?.authReducer?.status)
-  console.log(loggedinSuccess, "selector");
-
+  const gg = useSelector((data) => data);
+  console.log(gg, "redux data");
   //URL
-  const login_Url = "/login";
+  const LOGIN_URL = "/login";
 
   //State
   const [loginDetail, setLoginDetail] = useState({
@@ -27,51 +29,58 @@ const LoginPage = () => {
     setLoginDetail({ ...loginDetail, [e.target.name]: e.target.value });
   };
 
-  const handleLogin = () => {
-    Axios.post(login_Url, loginDetail)
-      .then((response) => {
-        console.log(response.data);
-        if (response.data.status){
-          dispatch(login(true))
+  const handleLogin = async () => {
+    try {
+      const res = await instance.post(LOGIN_URL, loginDetail);
+      if (res.status == 200) {
+        if (res.data.status) {
+          dispatch(setToken(res?.data?.token));
+          dispatch(
+            setLoginDetails({
+              username: res?.data?.username,
+              isloggedIn: true,
+            })
+          );
         }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      }); 
+      }
+    } catch (err) {
+      console.log(err, "err");
+    }
   };
 
   return (
     <div className={css.container}>
-      {
-        !loggedinSuccess ? <div className={css.cont}>
-        <div className={css.subCont}>
-          <Input
-            type={"text"}
-            name={"userId"}
-            onchangeHandle={onchangeHandler}
-            value={loginDetail.userId}
-            required={true}
-            placeholder={"Email / User Name"}
-          />
+      {!loggedinSuccess ? (
+        <div className={css.cont}>
+          <div className={css.subCont}>
+            <Input
+              type={"text"}
+              name={"userId"}
+              onchangeHandle={onchangeHandler}
+              value={loginDetail.userId}
+              required={true}
+              placeholder={"Email / User Name"}
+            />
 
-          <Input
-            type={"password"}
-            name={"password"}
-            onchangeHandle={onchangeHandler}
-            value={loginDetail.password}
-            required={true}
-            placeholder={"Password"}
-          />
+            <Input
+              type={"password"}
+              name={"password"}
+              onchangeHandle={onchangeHandler}
+              value={loginDetail.password}
+              required={true}
+              placeholder={"Password"}
+            />
 
-          <Button
-            buttonName={"Log in"}
-            buttonCss={"blueBtn"}
-            onclickHandle={handleLogin}
-          />
+            <Button
+              buttonName={"Log in"}
+              buttonCss={"blueBtn"}
+              onclickHandle={handleLogin}
+            />
+          </div>
         </div>
-      </div> : <h1>logged in</h1>
-      }
-      
+      ) : (
+        <h1>logged in</h1>
+      )}
     </div>
   );
 };

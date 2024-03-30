@@ -19,6 +19,7 @@ const loginUser = async (userid, cred) => {
       const auth = pass.password == cred;
       return auth
         ? {
+            username: res.username,
             status: true,
           }
         : {
