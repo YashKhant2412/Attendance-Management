@@ -1,13 +1,19 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import CreateUserPage from "./CreateUserPage";
 import LoginPage from "./LoginPage";
 import css from "../Css/LandingPage.module.css";
 import cmn from "../Css/CmnComponent.module.css";
+import Home from "./Component/Home";
 
 const LandingPage = () => {
   const [selectPage, setSelectPage] = useState(true);
+
+  const loggedinSuccess = useSelector((state) => state?.authReducer?.status);
+  console.log(loggedinSuccess, "selector");
   return (
     <>
+    {!loggedinSuccess ? (
       <div className={css.Container}>
         <div className={css.leftContainer}>
           <div>
@@ -31,6 +37,11 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
+      ) : (
+        <div>
+          <Home/>
+        </div>
+      )}
     </>
   );
 };

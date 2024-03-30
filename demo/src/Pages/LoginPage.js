@@ -70,6 +70,14 @@ const LoginPage = () => {
               required={true}
               placeholder={"Password"}
             />
+            <Input
+              type={"password"}
+              name={"password"}
+              onchangeHandle={onchangeHandler}
+              value={loginDetail.password}
+              required={true}
+              placeholder={"Password"}
+            />
 
             <Button
               buttonName={"Log in"}

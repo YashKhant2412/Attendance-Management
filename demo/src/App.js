@@ -1,10 +1,9 @@
-import LandingPage from "./Pages/LandingPage";
-import Attendance from "./Pages/Attendance";
-import LoginPage from "./Pages/LoginPage";
+// import LandingPage from "./Pages/LandingPage";
+import MainPage from "./Pages/Component/MainPage";
 const App = () => {
   return (
     <>
-      <LandingPage />
+      <MainPage />
     </>
   );
 };
